@@ -1,15 +1,93 @@
-// This file is used to style the iframe that is injected into the page
 .crx-iframe {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 400px;
+  height: 600px;
   border: none;
   border-radius: 8px;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    0 -1px 0px rgba(0, 0, 0, 0.02);
-  background-color: #fff;
-  margin: 2em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: white;
+  z-index: 2147483647;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.crx-floating-ball {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 420px;
-  min-height: 340px;
+  width: 48px;
+  height: 48px;
+  background: #4a5568;
+  border-radius: 50%;
+  cursor: move;
+  z-index: 2147483648;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+  
+  .ball-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+}
+
+.crx-menu {
+  position: fixed;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 2147483647;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .menu-item {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    
+    &:hover {
+      background: #f3f4f6;
+    }
+    
+    .item-icon {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4a5568;
+    }
+    
+    .item-text {
+      color: #1f2937;
+      font-size: 14px;
+    }
+  }
 }

@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// 发送消息给content-script
+const minimizeWindow = () => {
+  window.parent.postMessage('minimize-iframe', '*')
+}
+</script>
 
 <template>
   <div class="navbar bg-primary text-primary-content p-2">
@@ -17,6 +22,15 @@
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal menu-xs">
+        <li>
+          <button
+            class="btn btn-ghost btn-circle"
+            style="width: 32.5px;height: 24.5px;"
+            @click="minimizeWindow"
+          >
+            <i-ph-minus-circle />
+          </button>
+        </li>
         <li>
           <RouterLink to="/options-page">
             <i-ph-gear />
