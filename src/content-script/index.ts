@@ -55,22 +55,35 @@ if (iframe) {
   let initialX = 0
   let initialY = 0
   let isMenuVisible = false
+  let rafId: number | null = null
   
-  // 更新位置函数
+  // 更新位置
   const updatePosition = (x: number, y: number) => {
-    // 更新悬浮球位置
-    floatingBall.style.left = `${x}px`
-    floatingBall.style.top = `${y}px`
-    
-    // 更新菜单位置
-    menu.style.left = `${x - 150}px`
-    menu.style.top = `${y}px`
-    
-    // 更新iframe位置（如果显示的话）
-    if (iframe.classList.contains('visible')) {
-      iframe.style.left = `${x - 200}px`
-      iframe.style.top = `${y}px`
+    if (rafId) {
+      cancelAnimationFrame(rafId)
     }
+    
+    rafId = requestAnimationFrame(() => {
+      currentX = x
+      currentY = y
+      
+      // 更新悬浮球位置
+      floatingBall.style.left = `${x}px`
+      floatingBall.style.top = `${y}px`
+      
+      // 更新菜单位置
+      menu.style.left = `${x - 150}px`
+      menu.style.top = `${y}px`
+      
+      // 更新iframe位置（如果显示的话）
+      if (iframe.classList.contains('visible')) {
+        const iframeX = Math.max(0, Math.min(x - 200, window.innerWidth - 400)) // 400是iframe宽度
+        iframe.style.left = `${iframeX}px`
+        iframe.style.top = `${y}px`
+      }
+      
+      rafId = null
+    })
   }
   
   // 初始化位置
@@ -96,6 +109,11 @@ if (iframe) {
   
   // 显示iframe
   const showIframe = () => {
+    // 确保iframe不会超出屏幕
+    const iframeX = Math.max(0, Math.min(currentX - 200, window.innerWidth - 400))
+    iframe.style.left = `${iframeX}px`
+    iframe.style.top = `${currentY}px`
+    
     iframe.classList.add('visible')
     floatingBall.style.opacity = '0'
     floatingBall.style.pointerEvents = 'none'
@@ -106,6 +124,9 @@ if (iframe) {
     iframe.classList.remove('visible')
     floatingBall.style.opacity = '1'
     floatingBall.style.pointerEvents = 'auto'
+    
+    // 更新位置，确保悬浮球位置正确
+    updatePosition(currentX, currentY)
   }
   
   // 切换菜单显示状态
@@ -118,30 +139,39 @@ if (iframe) {
   // 添加拖拽处理
   floatingBall.addEventListener('mousedown', (e: MouseEvent) => {
     isDragging = true
-    initialX = e.clientX - currentX
-    initialY = e.clientY - currentY
+    floatingBall.classList.add('dragging')
     
-    floatingBall.style.cursor = 'grabbing'
+    const rect = floatingBall.getBoundingClientRect()
+    initialX = e.clientX - rect.left
+    initialY = e.clientY - rect.top
+    
+    e.preventDefault() // 防止文本选择
   })
   
-  document.addEventListener('mousemove', (e: MouseEvent) => {
-    if (isDragging) {
-      e.preventDefault()
-      
-      currentX = e.clientX - initialX
-      currentY = e.clientY - initialY
-      
-      // 确保不超出屏幕边界
-      currentX = Math.max(0, Math.min(currentX, window.innerWidth - floatingBall.offsetWidth))
-      currentY = Math.max(0, Math.min(currentY, window.innerHeight - floatingBall.offsetHeight))
-      
-      updatePosition(currentX, currentY)
-    }
-  })
+  const handleDrag = (e: MouseEvent) => {
+    if (!isDragging) return
+    
+    e.preventDefault()
+    
+    // 计算新位置
+    let newX = e.clientX - initialX
+    let newY = e.clientY - initialY
+    
+    // 确保不超出屏幕边界
+    newX = Math.max(0, Math.min(newX, window.innerWidth - floatingBall.offsetWidth))
+    newY = Math.max(0, Math.min(newY, window.innerHeight - floatingBall.offsetHeight))
+    
+    updatePosition(newX, newY)
+  }
+  
+  // 使用 passive: false 来提高性能
+  document.addEventListener('mousemove', handleDrag, { passive: false })
   
   document.addEventListener('mouseup', () => {
+    if (!isDragging) return
+    
     isDragging = false
-    floatingBall.style.cursor = 'move'
+    floatingBall.classList.remove('dragging')
   })
   
   // 点击悬浮球显示/隐藏菜单
@@ -164,6 +194,14 @@ if (iframe) {
     if (event.data === 'minimize-iframe') {
       hideIframe()
     }
+  })
+  
+  // 监听窗口大小变化
+  window.addEventListener('resize', () => {
+    // 确保悬浮球不会超出新的窗口边界
+    currentX = Math.min(currentX, window.innerWidth - floatingBall.offsetWidth)
+    currentY = Math.min(currentY, window.innerHeight - floatingBall.offsetHeight)
+    updatePosition(currentX, currentY)
   })
 }
 
