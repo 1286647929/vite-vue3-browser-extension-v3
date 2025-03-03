@@ -1,4 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getData } from "@/api/user"
+
+const getUser = async () => {
+  const { data } = await getData()
+  console.log(data)
+}
+
+</script>
 
 <template>
   <div>
@@ -11,6 +19,8 @@
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi.
           </p>
+          <button @click="getUser">点我发送请求</button>
+
 
           <div class="flex gap-2 justify-center mb-4">
             <RouterLink

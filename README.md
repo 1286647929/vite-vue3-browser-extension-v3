@@ -60,34 +60,34 @@ _Please create an issue if you feel some feature is missing or could be improved
 
 ```bash
 .
-├── dist                     # Built extension files
+├── dist                    # 存放构建后的扩展文件，即最终发布的版本。它被进一步划分为针对不同浏览器的特定构建，例如chrome和firefox。
 │   ├── chrome              # Chrome-specific build
 │   └── firefox             # Firefox-specific build
-├── public                  # Static assets
+├── public                  # 包含静态资源文件，这些文件会在构建过程中直接复制到输出目录中而不经过任何处理。其中的icons子目录用于存放扩展的各种图标。
 │   └── icons              # Extension icons
-├── scripts                 # Build/dev scripts
+├── scripts                 # 此目录可能包含一些脚本文件，用于执行与项目开发或构建相关的任务。
 ├── src                     # Source code
-│   ├── assets             # Global assets (images, styles)
-│   ├── background         # Extension background script
-│   ├── components         # Shared Vue components. Some prebuilt components are available like `Header`, `Footer`, `LocaleSwitch`, `ThemeSwitch`, `LoadingSpinner`, `ErrorBoundary`, `EmptyState` etc
-│   ├── composables        # Vue composables/hooks
+│   ├── assets             # 全局使用的资源文件，如图片、样式表等。
+│   ├── background         # 后台脚本，负责管理扩展的生命周期事件和跨页面通信。
+│   ├── components         # 共享的Vue组件，提供了一些预先构建好的组件以供快速开发使用。
+│   ├── composables        # Vue组合式API或自定义钩子，用于封装可复用的逻辑，比如对本地存储、主题和语言环境的管理。
 │   │   ├── useBrowserStorage  # Browser storage for both `sync` and `local`
 │   │   ├── useLocale  # Manage locale in your extension
 │   │   ├── useTheme  # Manage theme in your extension
-│   ├── content-script     # Content scripts injected into pages
-│   ├── devtools          # Chrome devtools panel
+│   ├── content-script     # 内容脚本，可以注入到网页中以修改网页行为或与网页交互。
+│   ├── devtools          # Chrome开发者工具面板的相关代码。
 │   ├── locales           # i18n translation files
 │   ├── offscreen         # Offscreen pages (audio, recording)
-│   ├── stores            # Pinia stores
-│   ├── types             # TypeScript type definitions
+│   ├── stores            # Pinia stores 状态管理库Pinia的存储文件，用于集中管理应用的状态。
+│   ├── types             # TypeScript type definitions TypeScript类型定义文件，有助于在开发时进行类型检查。
 │   ├── ui                # UI pages
-│   │   ├── action-popup  # Browser toolbar popup
-│   │   ├── common        # Shared pages
-│   │   ├── content-script-iframe        # Content script app injected into pages by content script
-│   │   ├── devtools-panel # Devtools panel UI
-│   │   ├── options-page  # Extension options
+│   │   ├── action-popup  # Browser toolbar popup 浏览器工具栏弹出窗口
+│   │   ├── common        # Shared pages 共享页面
+│   │   ├── content-script-iframe        # Content script app injected into pages by content script 内容脚本应用程序通过内容脚本注入页面
+│   │   ├── devtools-panel # Devtools panel UI Devtools 面板 UI
+│   │   ├── options-page  # Extension options 扩展选项
 │   │   ├── setup        # Install/update pages
-│   │   └── side-panel   # Browser side panel
+│   │   └── side-panel   # Browser side panel 浏览器侧面板
 │   └── utils            # Shared utilities
 ├── manifest.config.ts    # Base manifest configuration
 ├── vite.chrome.config.ts       # Chrome specific Vite configuration overrides

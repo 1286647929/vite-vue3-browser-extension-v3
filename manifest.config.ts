@@ -12,7 +12,7 @@ const [major, minor, patch, label = "0"] = version
 
 export default {
   author: {
-    email: "mubaidr@gmail.com",
+    email: "1286647929@qq.com",
   },
   name: env.mode === "staging" ? `[INTERNAL] ${name}` : displayName || name,
   description,
@@ -33,7 +33,11 @@ export default {
     {
       all_frames: false,
       js: ["src/content-script/index.ts"],
-      matches: ["*://*/*"],
+      matches: [
+        "https://*.liepin.com/resume/showresumedetail/*" ,
+        "https://maimai.cn/*",
+        "https://www.linkedin.cn/incareer/in/*"
+      ],
     },
   ],
   side_panel: {
@@ -43,8 +47,27 @@ export default {
   options_page: "src/ui/options-page/index.html",
   offline_enabled: true,
   host_permissions: ["<all_urls>"],
-  permissions: ["storage", "tabs", "background", "sidePanel"],
-  web_accessible_resources: [],
+  permissions: [
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "storage",
+    "tabs",
+    "background",
+    "sidePanel",
+  ],
+  // 允许跨域访问
+  web_accessible_resources: [
+    {
+      // 列出扩展内部可访问的资源文件
+      "resources": [
+        "src/ui/content-script-iframe/index.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
   icons: {
     16: "src/assets/logo.png",
     24: "src/assets/logo.png",

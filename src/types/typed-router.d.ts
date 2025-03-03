@@ -21,6 +21,7 @@ declare module 'vue-router/auto-routes' {
     '/action-popup/': RouteRecordInfo<'/action-popup/', '/action-popup', Record<never, never>, Record<never, never>>,
     '/action-popup/playground': RouteRecordInfo<'/action-popup/playground', '/action-popup/playground', Record<never, never>, Record<never, never>>,
     '/common/404': RouteRecordInfo<'/common/404', '/common/404', Record<never, never>, Record<never, never>>,
+    '/common/405': RouteRecordInfo<'/common/405', '/common/405', Record<never, never>, Record<never, never>>,
     '/common/about': RouteRecordInfo<'/common/about', '/common/about', Record<never, never>, Record<never, never>>,
     '/common/change-log': RouteRecordInfo<'/common/change-log', '/common/change-log', Record<never, never>, Record<never, never>>,
     '/common/features': RouteRecordInfo<'/common/features', '/common/features', Record<never, never>, Record<never, never>>,
