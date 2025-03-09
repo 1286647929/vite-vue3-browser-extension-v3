@@ -34,9 +34,8 @@ export default {
       all_frames: false,
       js: ["src/content-script/index.ts"],
       matches: [
-        "https://*.liepin.com/resume/showresumedetail/*" ,
-        "https://maimai.cn/*",
-        "https://www.linkedin.cn/incareer/in/*"
+        // 匹配所有页面
+        "<all_urls>"
       ],
     },
   ],

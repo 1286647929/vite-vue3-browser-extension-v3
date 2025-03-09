@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+
 // 发送消息给content-script
 const minimizeWindow = () => {
   window.parent.postMessage('minimize-iframe', '*')
@@ -7,65 +11,43 @@ const minimizeWindow = () => {
 
 <template>
   <div class="navbar bg-primary text-primary-content p-2">
-    <div class="flex-1 pl-2">
+    <div class="flex gap-2 items-center">
       <RouterLink
-        to="/"
-        class="flex gap-2 items-center"
+        :to="userStore.isLoggedIn ? '/user' : '/user/login'"
       >
-        <img
-          src="@assets/logo.png"
-          alt="logo"
-          class="h-8 w-auto"
+        <i-ph-user-circle
+          :class="userStore.isLoggedIn ? '' : 'animate-pulse'"
         />
-        <div class="text-base font-semibold">Vite Vue 3 Chrome Extension</div>
       </RouterLink>
+      <span class="text-base font-semibold">{{ userStore.userInfo?.name || '未登录用户' }}</span>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal menu-xs">
         <li>
-          <button
-            class="btn btn-ghost btn-circle"
-            style="width: 32.5px;height: 24.5px;"
+          <div
+            class="flex gap-1 items-center"
+            style="cursor: pointer;"
             @click="minimizeWindow"
           >
             <i-ph-minus-circle />
-          </button>
-        </li>
-        <li>
-          <RouterLink to="/options-page">
-            <i-ph-gear />
-          </RouterLink>
-        </li>
-        <li>
-          <LocaleSwitch />
-        </li>
-        <li>
-          <div class="dropdown dropdown-bottom dropdown-end">
-            <div
-              tabindex="0"
-              role="button"
-              class="flex gap-1"
-            >
-              <i-ph-dots-three-vertical />
-            </div>
-            <ul
-              tabindex="0"
-              class="dropdown-content menu bg-white rounded-box z-[1] shadow-lg"
-            >
-              <li><ThemeSwitch /></li>
-              <li></li>
-              <li>
-                <RouterLink
-                  to="/common/about"
-                  class="text-primary"
-                >
-                  <i-ph-question />
-                  About
-                </RouterLink>
-              </li>
-            </ul>
+            最小化
           </div>
         </li>
+        <li v-if="userStore.isLoggedIn">
+          <RouterLink
+            to="/"
+            class="flex-1 pl-2"
+          >
+            <i-ph-paper-plane />
+            简历上传
+          </RouterLink>
+        </li>
+        <!-- <li>
+          <RouterLink to="/options-page">
+            <i-ph-gear />
+            设置
+          </RouterLink>
+        </li> -->
       </ul>
     </div>
   </div>

@@ -7,11 +7,11 @@ const displayName = __DISPLAY_NAME__
   <div
     class="w-full h-full flex flex-col justify-center items-center text-center md:my-12"
   >
-    <h1>🎉 Installed! 🚀</h1>
+    <h1>🎉 安装成功! 🚀</h1>
     <p>
-      Thank you for installing {{ displayName }}! ❤️
+      感谢安装 {{ displayName }}! ❤️
       <br />
-      Now you can close this tab and start using the extension.
+      现在可以关闭此标签页并开始使用扩展。
     </p>
   </div>
 </template>

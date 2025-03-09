@@ -108,15 +108,27 @@ if (iframe) {
   }
   
   // 显示iframe
-  const showIframe = () => {
-    // 确保iframe不会超出屏幕
-    const iframeX = Math.max(0, Math.min(currentX - 200, window.innerWidth - 400))
-    iframe.style.left = `${iframeX}px`
-    iframe.style.top = `${currentY}px`
-    
-    iframe.classList.add('visible')
-    floatingBall.style.opacity = '0'
-    floatingBall.style.pointerEvents = 'none'
+  const showIframe = async () => {
+    try {
+      // 使用 chrome.storage.local 获取登录状态
+      const result = await chrome.storage.local.get(['isLoggedIn'])
+      const isLoggedIn = result.isLoggedIn || false
+      
+      // 确保iframe不会超出屏幕
+      const iframeX = Math.max(0, Math.min(currentX - 200, window.innerWidth - 400))
+      iframe.style.left = `${iframeX}px`
+      iframe.style.top = `${currentY}px`
+      
+      // 根据登录状态设置不同的页面路径
+      const path = isLoggedIn ? '/' : '/user/login'
+      iframe.src = chrome.runtime.getURL(`src/ui/content-script-iframe/index.html#${path}`)
+      
+      iframe.classList.add('visible')
+      floatingBall.style.opacity = '0'
+      floatingBall.style.pointerEvents = 'none'
+    } catch (error) {
+      console.error('获取登录状态失败:', error)
+    }
   }
   
   // 隐藏iframe
@@ -193,6 +205,8 @@ if (iframe) {
   window.addEventListener('message', (event) => {
     if (event.data === 'minimize-iframe') {
       hideIframe()
+    } else if (event.data === 'show-iframe') {
+      showIframe()
     }
   })
   
@@ -202,6 +216,14 @@ if (iframe) {
     currentX = Math.min(currentX, window.innerWidth - floatingBall.offsetWidth)
     currentY = Math.min(currentY, window.innerHeight - floatingBall.offsetHeight)
     updatePosition(currentX, currentY)
+  })
+
+  // 监听存储变化
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'local' && changes.isLoggedIn && iframe.classList.contains('visible')) {
+      // 当登录状态改变且iframe可见时，重新加载iframe
+      showIframe()
+    }
   })
 }
 

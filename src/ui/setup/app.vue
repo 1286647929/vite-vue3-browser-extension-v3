@@ -4,13 +4,9 @@ import { Notivue, Notification } from 'notivue'
 
 <template>
   <div>
-    <AppHeader />
-
     <div class="w-full p-4 prose">
       <RouterView />
     </div>
-
-    <AppFooter />
 
     <Notivue v-slot="item">
       <Notification :item="item" />

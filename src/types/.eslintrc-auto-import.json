@@ -363,6 +363,7 @@
     "useSSRWidth": true,
     "onElementRemoval": true,
     "useCountdown": true,
-    "http": true
+    "http": true,
+    "useUserStore": true
   }
 }
