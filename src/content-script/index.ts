@@ -2,6 +2,11 @@
 import "./index.scss"
 
 const src = chrome.runtime.getURL("src/ui/content-script-iframe/index.html")
+// 导入通信工具
+import { initCommunicationBridge } from '@/utils/communication'
+
+// 初始化与外部Vue2应用的通信桥接
+initCommunicationBridge()
 
 // 创建 iframe
 const iframe = new DOMParser().parseFromString(
@@ -235,5 +240,6 @@ self.onerror = function (message, source, lineno, colno, error) {
   console.info("Column: " + colno)
   console.info("Error object: " + error)
 }
+
 
 console.info("hello world from content-script")

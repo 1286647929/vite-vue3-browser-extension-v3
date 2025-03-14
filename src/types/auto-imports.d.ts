@@ -9,6 +9,7 @@ declare global {
   const $t: typeof import('vue-i18n')['$t']
   const EffectScope: typeof import('vue')['EffectScope']
   const Gumroad: typeof import('../utils/payment/gumroad')['Gumroad']
+  const MessageType: typeof import('../utils/communication')['MessageType']
   const Notification: typeof import('notivue')['Notification']
   const Notivue: typeof import('notivue')['Notivue']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -61,6 +62,7 @@ declare global {
   const http: typeof import('../utils/request/request')['http']
   const i18n: typeof import('../utils/i18n')['i18n']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
+  const initCommunicationBridge: typeof import('../utils/communication')['initCommunicationBridge']
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
@@ -68,6 +70,8 @@ declare global {
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
+  const listenToExtensionMessages: typeof import('../utils/communication')['listenToExtensionMessages']
+  const listenToWebpageMessages: typeof import('../utils/communication')['listenToWebpageMessages']
   const makeDestructurable: typeof import('@vueuse/core')['makeDestructurable']
   const mapActions: typeof import('pinia')['mapActions']
   const mapGetters: typeof import('pinia')['mapGetters']
@@ -126,6 +130,8 @@ declare global {
   const resolveRef: typeof import('@vueuse/core')['resolveRef']
   const resolveUnref: typeof import('@vueuse/core')['resolveUnref']
   const router: typeof import('../utils/router')['router']
+  const sendMessageToExtension: typeof import('../utils/communication')['sendMessageToExtension']
+  const sendMessageToWebpage: typeof import('../utils/communication')['sendMessageToWebpage']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']
   const shallowReactive: typeof import('vue')['shallowReactive']
@@ -363,6 +369,9 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { MessageType, ExtensionMessage } from '../utils/communication'
+  import('../utils/communication')
 }
 
 // for vue template auto import
@@ -371,6 +380,7 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly MessageType: UnwrapRef<typeof import('../utils/communication')['MessageType']>
     readonly Notification: UnwrapRef<typeof import('notivue')['Notification']>
     readonly Notivue: UnwrapRef<typeof import('notivue')['Notivue']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
@@ -412,6 +422,7 @@ declare module 'vue' {
     readonly http: UnwrapRef<typeof import('../utils/request/request')['http']>
     readonly i18n: UnwrapRef<typeof import('../utils/i18n')['i18n']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
+    readonly initCommunicationBridge: UnwrapRef<typeof import('../utils/communication')['initCommunicationBridge']>
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
@@ -419,6 +430,8 @@ declare module 'vue' {
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
+    readonly listenToExtensionMessages: UnwrapRef<typeof import('../utils/communication')['listenToExtensionMessages']>
+    readonly listenToWebpageMessages: UnwrapRef<typeof import('../utils/communication')['listenToWebpageMessages']>
     readonly makeDestructurable: UnwrapRef<typeof import('@vueuse/core')['makeDestructurable']>
     readonly mapActions: UnwrapRef<typeof import('pinia')['mapActions']>
     readonly mapGetters: UnwrapRef<typeof import('pinia')['mapGetters']>
@@ -470,6 +483,8 @@ declare module 'vue' {
     readonly resolveComponent: UnwrapRef<typeof import('vue')['resolveComponent']>
     readonly resolveRef: UnwrapRef<typeof import('@vueuse/core')['resolveRef']>
     readonly resolveUnref: UnwrapRef<typeof import('@vueuse/core')['resolveUnref']>
+    readonly sendMessageToExtension: UnwrapRef<typeof import('../utils/communication')['sendMessageToExtension']>
+    readonly sendMessageToWebpage: UnwrapRef<typeof import('../utils/communication')['sendMessageToWebpage']>
     readonly setActivePinia: UnwrapRef<typeof import('pinia')['setActivePinia']>
     readonly setMapStoreSuffix: UnwrapRef<typeof import('pinia')['setMapStoreSuffix']>
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>

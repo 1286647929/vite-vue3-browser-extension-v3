@@ -45,16 +45,24 @@ export default {
   devtools_page: "src/devtools/index.html",
   options_page: "src/ui/options-page/index.html",
   offline_enabled: true,
-  host_permissions: ["<all_urls>"],
+  host_permissions: [
+    "<all_urls>"
+  ],
   permissions: [
     "activeTab",
     "scripting",
     "webNavigation",
-    "storage",
+    "storage",  
     "tabs",
     "background",
     "sidePanel",
   ],
+  externally_connectable: {
+    matches: [
+      "http://8.133.192.113/*",  // 允许此IP地址的网页与扩展通信
+      "http://localhost:8080/*"
+    ]
+  },
   // 允许跨域访问
   web_accessible_resources: [
     {

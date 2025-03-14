@@ -364,6 +364,13 @@
     "onElementRemoval": true,
     "useCountdown": true,
     "http": true,
-    "useUserStore": true
+    "useUserStore": true,
+    "ExtensionMessage": true,
+    "MessageType": true,
+    "initCommunicationBridge": true,
+    "listenToExtensionMessages": true,
+    "listenToWebpageMessages": true,
+    "sendMessageToExtension": true,
+    "sendMessageToWebpage": true
   }
 }
